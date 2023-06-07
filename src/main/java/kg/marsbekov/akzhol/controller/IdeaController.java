@@ -29,7 +29,7 @@ public class IdeaController {
     }
 
 
-    @DeleteMapping(value = "/delete/{str}")
+    @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteIdea(@RequestParam Long id) {
         ideaService.deleteIdea(id);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -2,19 +2,19 @@ package kg.marsbekov.akzhol.service;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import kg.marsbekov.akzhol.dal.entity.IdeaEntity;
 import kg.marsbekov.akzhol.dal.entity.UserEntity;
+import kg.marsbekov.akzhol.dal.repository.IdeaRepository;
 import kg.marsbekov.akzhol.dal.repository.UserRepository;
 import kg.marsbekov.akzhol.model.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.boot.model.IdentifierGeneratorDefinition;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Optional;
@@ -28,14 +28,14 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Valid
-    public void createUser(String login, String eMail, String lastName, String firstName, LocalDate birthDate) {
-        UserEntity user = new UserEntity();
-        user.setLogin(login);
-        user.setEMail(eMail);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setBirthDate(birthDate);
-        userRepository.save(user);
+    public void createUser(UserDto user/*String login, String eMail, String lastName, String firstName, LocalDate birthDate*/) {
+        UserEntity entity = new UserEntity(user);
+//        user.setLogin(login);
+//        user.setEMail(eMail);
+//        user.setFirstName(firstName);
+//        user.setLastName(lastName);
+//        user.setBirthDate(birthDate);
+        userRepository.save(entity);
     }
 
     public List<UserDto> getAllUsers() {
@@ -52,5 +52,10 @@ public class UserService {
         }
         return new UserDto(user.get());
     }
+    private IdeaEntity entity;
+    public void deleteIdea(Long id) {
+        userRepository.deleteById(id);
+    }
+
 }
 
